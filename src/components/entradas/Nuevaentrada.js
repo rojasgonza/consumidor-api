@@ -4,8 +4,35 @@ import clienteAxios from '../../config/axios';
 
 
 function nuevaEntrada() {
-    
+    //FORMULARIO
+    const [entrada, guardarEntrada] = useState({
+        detalle: '',
+        monto:'',
+        tipoentradaId: ''
 
+    });
+    const actualizarState = e =>{
+        ///almacenar lo que escribe
+        guardarEntrada({
+            //obtener una copia de lo que va escribiendo
+            ...entrada, [e.target.name] : e.target.value
+        })
+    }
+
+
+    const agregarEntrada = e =>{
+        e.preventdefault();
+        //enviar query
+        clienteAxios.post('/nuevaentrada', entrada)
+            .then(res => {
+                console.log(res)
+            })
+    }
+
+
+
+
+    ///MUESTRA DE SELECT PARA TIPO DE ENTRADA
     //state entrada = state, guardarEntraddas = funcion para guardar entradas
     const [tentradas, guardartEntradas] = useState([]);
 
@@ -25,21 +52,24 @@ function nuevaEntrada() {
         <div className='container'>
             <div className='row'>
                 <div className='col-md-8 col-sm-6'>
-            <form>
+            <form 
+            onSubmit={agregarEntrada}>
                 <label className='form-label'>Detalle</label>
-                <input className='form-control' placeholder='auto'/>
+                <input onChange={actualizarState} className='form-control' type="text" name="detalle" placeholder='auto'/>
                 <label className='form-label'>Monto</label>
-                <input className='form-control' placeholder='$1000'/>
+                <input onChange={actualizarState} className='form-control' type="number" name='monto' placeholder='$1000'/>
+                {/* <label className='form-label'>Fecha</label>
+                <input onChange={actualizarState} className='form-control' type="date" name='updatedAt' /> */}
                 <label className='form-label'>Vaya</label>
-                <select className='form-control'>
-                    <option>Valor</option>
+                <select onChange={actualizarState} className='form-control' name='tipoentradaId'>
+                    
                      {tentradas.map(tentrada => (
                          <option
                         key={tentrada.id}
                         value={tentrada}>{tentrada.nombre}</option>
                     ))}
                         </select>
-                <input type="submit" value="enviar" className='btn btn-danger mt-3'/>
+                <input type="submit"  value="enviar" className='btn btn-danger mt-3'/>
             </form>
             </div>
             </div>
