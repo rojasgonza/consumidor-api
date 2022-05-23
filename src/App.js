@@ -6,6 +6,7 @@ import Tipogastos from './components/tipogastos/Tipogastos';
 import Tipoentradas from './components/tipoentradas/Tipoentradas';
 import Salidas from './components/salidas/Salidas';
 import Entradas from './components/entradas/Entradas';
+import nuevaEntrada from './components/entradas/Nuevaentrada';
 function App() {
   return (
   <Router>
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/tipoentradas" component={Tipoentradas}/>
         <Route exact path="/salidas" component={Salidas}/>
         <Route exact path="/entradas" component={Entradas}/>
+        <Route exact path="/entradas/nueva" component={nuevaEntrada}/>
     
       </Switch>
     </Fragment>
