@@ -1,21 +1,24 @@
 import React, {useState,useEffect} from 'react';
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
-import {withRouter} from 'react-router-dom';
+import  useHistory, {withRouter} from 'react-router-dom';
 
 
 
-function nuevaEntrada({history}) {
+function editarEntrada(props) {
+    const {id} = props.match.params;
     //FORMULARIO
-    const [entrada, guardarEntrada] = useState({
+    const [entrada, datosEntrada] = useState({
         detalle: '',
         monto:'',
         tipoentradaId: ''
 
     });
+    //useefect
+
     const actualizarState = e =>{
         ///almacenar lo que escribe
-        guardarEntrada({
+        datosEntrada({
             //obtener una copia de lo que va escribiendo
             ...entrada,
             [e.target.name] : e.target.value
@@ -33,14 +36,16 @@ function nuevaEntrada({history}) {
         const tentradasConsulta = await clienteAxios.get('/tipoentradas');
         //colocar el resultado en el state
         guardartEntradas(tentradasConsulta.data);
+        const entradasConsulta = await clienteAxios.get(`/entradas/${id}`);
+        datosEntrada(entradasConsulta.data); 
     }
 
     //use effect componentdidmount will moun
-    const agregarEntrada = e => {
+    const editarEntrada = e => {
         e.preventDefault();
         
         //enviar peticion
-        clienteAxios.post('/nentradas', entrada)
+        clienteAxios.put(`/entradas/editar/${entrada.id}`, entrada)
         .then(res=>{
             if (res.data.code === 11000) {
                Swal.fire({
@@ -59,7 +64,7 @@ function nuevaEntrada({history}) {
             }
     
             //a donde quiero que me reedireccione
-            history.push('/entradas')
+            props.history.push('/')
         });
     }
     
@@ -71,17 +76,18 @@ function nuevaEntrada({history}) {
         <div className='container'>
             <div className='row'>
                 <div className='col-md-8 col-sm-6'>
-            <form 
-            onSubmit={agregarEntrada}>
+            <form onSubmit={editarEntrada}>
                 <label className='form-label'>Detalle</label>
-                <input onChange={actualizarState} className='form-control' type="text" name="detalle" placeholder='auto'/>
+                <input value={entrada.detalle}
+                    onChange={actualizarState} className='form-control' type="text" name="detalle" placeholder='auto'/>
                 <label className='form-label'>Monto</label>
-                <input onChange={actualizarState} className='form-control' type="number" name="monto" step="any" placeholder='$1000'/>
-                {/* <label className='form-label'>Fecha</label>
-                <input onChange={actualizarState} className='form-control' type="date" name='updatedAt' /> */}
+                <input value={entrada.monto} onChange={actualizarState} className='form-control' type="number" name="monto" step="any" placeholder='$1000'/>
+
                 <label className='form-label'>Tipo de gasto</label>
-                <select onChange={actualizarState} className='form-control' name="tipoentradaId">
+                <select value={entrada.tipoentradaId}
+                onChange={actualizarState} className='form-control' name="tipoentradaId">
                     <option>NASHE</option>
+                    
                      {tentradas.map(tentrada => (
                          <option
                         key={tentrada.id}
@@ -95,4 +101,4 @@ function nuevaEntrada({history}) {
         </div>
     )
 }
-export default withRouter(nuevaEntrada);
+export default withRouter(editarEntrada);

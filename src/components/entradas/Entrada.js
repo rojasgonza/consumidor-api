@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 function Entrada({entrada}){
-    const {id, detalle, monto, createdAt, tipoentradaId} = entrada;
+    const {id, detalle, monto, createdAt, tipoentradaId, tipoentrada} = entrada;
 
 
 
@@ -12,8 +13,8 @@ function Entrada({entrada}){
             <th>{detalle}</th>
             <th>${monto}</th>
             <th>{createdAt}</th>
-            <th>{tipoentradaId}</th>
-            <th>BORRAR | EDITAR</th>
+            <th>{tipoentrada.nombre}</th>
+            <th><a href={`/entradas/editar/${id}`} className="">editar</a> | EDITAR</th>
 
         </tr>
     )
