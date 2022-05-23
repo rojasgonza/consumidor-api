@@ -1,5 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import clienteAxios from '../../config/axios';
+import Swal from 'sweetalert2';
+
 
 
 
@@ -15,20 +17,10 @@ function nuevaEntrada() {
         ///almacenar lo que escribe
         guardarEntrada({
             //obtener una copia de lo que va escribiendo
-            ...entrada, [e.target.name] : e.target.value
+            ...entrada,
+            [e.target.name] : e.target.value
         })
     }
-
-
-    const agregarEntrada = e =>{
-        e.preventdefault();
-        //enviar query
-        clienteAxios.post('/nuevaentrada', entrada)
-            .then(res => {
-                console.log(res)
-            })
-    }
-
 
 
 
@@ -43,7 +35,34 @@ function nuevaEntrada() {
         guardartEntradas(tentradasConsulta.data);
     }
 
-    //use effect componentdidmount will mount
+    //use effect componentdidmount will moun
+    const agregarEntrada = e => {
+        e.preventDefault();
+        
+        //enviar peticion
+        clienteAxios.post('/entradas', entrada)
+        .then(res=>{
+            if (res.data.code === 11000) {
+               Swal.fire({
+                   icon: 'error',
+                   title: 'Hubo un error',
+                   text: 'Ese mail ya se encuentra registrado'
+    
+               })
+            }else{
+    
+                    Swal.fire(
+                    'Good job!',
+                    res.data.mensaje,
+                    'success'
+                )
+            }
+    
+            //a donde quiero que me reedireccione
+          
+        });
+    }
+    
 
     useEffect(() => {
         consultarAPI();
@@ -57,19 +76,19 @@ function nuevaEntrada() {
                 <label className='form-label'>Detalle</label>
                 <input onChange={actualizarState} className='form-control' type="text" name="detalle" placeholder='auto'/>
                 <label className='form-label'>Monto</label>
-                <input onChange={actualizarState} className='form-control' type="number" name='monto' placeholder='$1000'/>
+                <input onChange={actualizarState} className='form-control' type="number" name="monto" step="any" placeholder='$1000'/>
                 {/* <label className='form-label'>Fecha</label>
                 <input onChange={actualizarState} className='form-control' type="date" name='updatedAt' /> */}
-                <label className='form-label'>Vaya</label>
-                <select onChange={actualizarState} className='form-control' name='tipoentradaId'>
+                <label className='form-label'>Tipo de gasto</label>
+                <select onChange={actualizarState} className='form-control' name="tipoentradaId">
                     
                      {tentradas.map(tentrada => (
                          <option
                         key={tentrada.id}
-                        value={tentrada}>{tentrada.nombre}</option>
+                        value={tentrada.id}>{tentrada.nombre}</option>
                     ))}
                         </select>
-                <input type="submit"  value="enviar" className='btn btn-danger mt-3'/>
+                <button type="submit" className='btn btn-danger mt-3'>Enviar</button>
             </form>
             </div>
             </div>
