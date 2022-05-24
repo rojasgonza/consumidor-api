@@ -18,7 +18,7 @@ function Entradas() {
 
     useEffect(() => {
         consultarAPI();
-    }, []);
+    }, [entradas]);
 
     return (
 
