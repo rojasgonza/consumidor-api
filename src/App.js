@@ -11,6 +11,8 @@ import editarEntrada from './components/entradas/Editarentrada';
 import Nuevotentrada from './components/tipoentradas/Nuevotentrada';
 import Editartentrada from './components/tipoentradas/Editartentrada';
 import Editartgasto from './components/tipogastos/Editartgasto';
+import Nuevasalida from './components/salidas/Nuevasalida';
+import Editarsalida from './components/salidas/Editarsalida';
 function App() {
   return (
     <BrowserRouter>  <Router>
@@ -28,8 +30,10 @@ function App() {
         <Route exact path="/tipoentradas/editar/:id" component={Editartentrada}/>
         <Route exact path="/tipogasto/nueva" component={Nuevotentrada}/>
         <Route exact path="/tipogasto/editar/:id" component={Editartgasto}/>
-       
-    
+        <Route exact path="/salidas/nueva" component={Nuevasalida}/>
+        <Route exact path="/salidas/editar/:id" component={Editarsalida}/>
+
+        
       </Switch>
     </Fragment>
   </Router>

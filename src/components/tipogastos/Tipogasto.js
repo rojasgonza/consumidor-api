@@ -34,7 +34,7 @@ function TGasto({tipogasto}){
         <tr>
             <th scope="row">{id}</th>
             <th>{nombre}</th>
-            <th><a href={`/tipogastos/editar/${id}`} className="">Editar</a> | <a onClick={()=>eliminarTGasto(id)} className="">Borrar</a></th>
+            <th><a href={`/tipogasto/editar/${id}`} className="">Editar</a> | <a onClick={()=>eliminarTGasto(id)} className="">Borrar</a></th>
 
         </tr>
     )

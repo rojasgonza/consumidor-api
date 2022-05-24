@@ -22,7 +22,7 @@ function Tipogasto(){
 
      <Fragment>
       <div className="container">
-         <h2>Tipo Entradas</h2>
+         <h2>Tipo Salidas</h2>
          <a href='/tipogasto/nueva' className='btn btn-success'>Nuevo</a>
          <table className="table">
              <thead>
