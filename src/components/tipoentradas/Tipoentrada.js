@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
-function Entrada({entrada}){
-    const {id, detalle, monto, createdAt, tipoentrada} = entrada;
-    const eliminarEntrada= (id) =>{
+function TEntrada({tipoentrada}){
+    const {id, nombre} = tipoentrada;
+    const eliminarTEntrada= (id) =>{
         Swal.fire({
             title: 'Estas seguro que deseas eliminar?',
             text: "Sí lo haces, no recuperarás el dato!",
@@ -15,7 +15,7 @@ function Entrada({entrada}){
             confirmButtonText: 'Sí, eliminar ahora!'
           }).then((result) => {
             if (result.isConfirmed) {
-                clienteAxios.delete(`/entradas/borrar/${id}`)
+                clienteAxios.delete(`/tipoentradas/borrar/${id}`)
                 .then(res =>{
                     Swal.fire(
                         'Eliminado!',
@@ -33,13 +33,10 @@ function Entrada({entrada}){
     return(
         <tr>
             <th scope="row">{id}</th>
-            <th>{detalle}</th>
-            <th>${monto}</th>
-            <th>{createdAt}</th>
-            <th>{tipoentrada.nombre}</th>
-            <th><a href={`/entradas/editar/${id}`} className="">Editar</a> | <a onClick={()=>eliminarEntrada(id)} className="">Borrar</a></th>
+            <th>{nombre}</th>
+            <th><a href={`/tipoentradas/editar/${id}`} className="">Editar</a> | <a onClick={()=>eliminarTEntrada(id)} className="">Borrar</a></th>
 
         </tr>
     )
 }
-export default Entrada;
+export default TEntrada;

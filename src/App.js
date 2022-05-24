@@ -8,6 +8,7 @@ import Salidas from './components/salidas/Salidas';
 import Entradas from './components/entradas/Entradas';
 import nuevaEntrada from './components/entradas/Nuevaentrada';
 import editarEntrada from './components/entradas/Editarentrada';
+import Nuevotentrada from './components/tipoentradas/Nuevotentrada';
 function App() {
   return (
     <BrowserRouter>  <Router>
@@ -21,7 +22,9 @@ function App() {
         <Route exact path="/entradas/nueva" component={nuevaEntrada}/>
         <Route exact path="/entradas/" component={nuevaEntrada}/>
         <Route exact path="/entradas/editar/:id" component={editarEntrada}/>
-        
+        <Route exact path="/tipoentradas/nueva" component={Nuevotentrada}/>
+
+       
     
       </Switch>
     </Fragment>
