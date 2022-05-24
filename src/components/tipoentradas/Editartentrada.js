@@ -1,25 +1,22 @@
 import React, {useState,useEffect} from 'react';
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
-import {withRouter} from 'react-router-dom';
+import  {withRouter} from 'react-router-dom';
 
 
 
-function nuevoTEntrada({history}) {
+function editarTEntrada(props) {
+    const {id} = props.match.params;
     //FORMULARIO
-    const [tipoentrada, guardarTEntrada] = useState({
+    const [tipoentrada, datosTEntrada] = useState({
         nombre: '',
 
-
     });
-    const consultarAPI = async () => {
-        const tentradasConsulta = await clienteAxios.get('/tipoentradas');
-        //colocar el resultado en el state
-        guardarTEntrada(tentradasConsulta.data);
-    }
+    //useefect
+
     const actualizarState = e =>{
         ///almacenar lo que escribe
-        guardarTEntrada({
+        datosTEntrada({
             //obtener una copia de lo que va escribiendo
             ...tipoentrada,
             [e.target.name] : e.target.value
@@ -27,12 +24,20 @@ function nuevoTEntrada({history}) {
     }
 
 
+
+
+    //QUERY
+    const consultarAPI = async () => {
+        const tentradasConsulta = await clienteAxios.get(`/tipoentradas/${id}`);
+        datosTEntrada(tentradasConsulta.data); 
+    }
+
     //use effect componentdidmount will moun
-    const agregarTEntrada = e => {
+    const editarTEntrada = e => {
         e.preventDefault();
         
         //enviar peticion
-        clienteAxios.post('/nuevotentrada', tipoentrada)
+        clienteAxios.put(`/tipoentradas/editar/${tipoentrada.id}`, tipoentrada)
         .then(res=>{
             if (res.data.code === 11000) {
                Swal.fire({
@@ -51,7 +56,7 @@ function nuevoTEntrada({history}) {
             }
     
             //a donde quiero que me reedireccione
-            history.push('/tipoentradas')
+            props.history.push('/')
         });
     }
     
@@ -61,13 +66,12 @@ function nuevoTEntrada({history}) {
     }, []);
     return(
         <div className='container'>
-            <h2>Nuevo tipo de entrada</h2>
             <div className='row'>
                 <div className='col-md-8 col-sm-6'>
-            <form 
-            onSubmit={agregarTEntrada}>
-                <label className='form-label'>Detalle</label>
-                <input onChange={actualizarState} className='form-control' type="text" name="nombre" placeholder='sueldos'/>
+            <form onSubmit={editarTEntrada}>
+                <label className='form-label'>Nombre</label>
+                <input value={tipoentrada.nombre}
+                    onChange={actualizarState} className='form-control' type="text" name="nombre" placeholder='auto'/>
                 <button type="submit" className='btn btn-danger mt-3'>Enviar</button>
             </form>
             </div>
@@ -75,4 +79,4 @@ function nuevoTEntrada({history}) {
         </div>
     )
 }
-export default withRouter(nuevoTEntrada);
+export default withRouter(editarTEntrada);

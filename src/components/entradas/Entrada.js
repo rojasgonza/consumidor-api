@@ -32,7 +32,7 @@ function Entrada({entrada}){
 
     return(
         <tr>
-            <th scope="row">{id}</th>
+            <th>{id}</th>
             <th>{detalle}</th>
             <th>${monto}</th>
             <th>{createdAt}</th>

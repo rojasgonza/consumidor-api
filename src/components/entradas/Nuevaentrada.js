@@ -69,6 +69,7 @@ function nuevaEntrada({history}) {
     }, []);
     return(
         <div className='container'>
+            <h2>Nueva entrada</h2>
             <div className='row'>
                 <div className='col-md-8 col-sm-6'>
             <form 
