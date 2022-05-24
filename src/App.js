@@ -10,6 +10,7 @@ import nuevaEntrada from './components/entradas/Nuevaentrada';
 import editarEntrada from './components/entradas/Editarentrada';
 import Nuevotentrada from './components/tipoentradas/Nuevotentrada';
 import Editartentrada from './components/tipoentradas/Editartentrada';
+import Editartgasto from './components/tipogastos/Editartgasto';
 function App() {
   return (
     <BrowserRouter>  <Router>
@@ -25,7 +26,8 @@ function App() {
         <Route exact path="/entradas/editar/:id" component={editarEntrada}/>
         <Route exact path="/tipoentradas/nueva" component={Nuevotentrada}/>
         <Route exact path="/tipoentradas/editar/:id" component={Editartentrada}/>
-
+        <Route exact path="/tipogasto/nueva" component={Nuevotentrada}/>
+        <Route exact path="/tipogasto/editar/:id" component={Editartgasto}/>
        
     
       </Switch>
